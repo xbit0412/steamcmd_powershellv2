@@ -1,6 +1,8 @@
 # steamcmd_powershellv2
 
 
+Created in Windows Server 2022 and PowerShell 5.1. This program may or not may work in previous or next versions of Windows Server and PowerShell.
+
 Install instructions:
 
 Open Powershell with elevated privilege permissions window and paste following command:
