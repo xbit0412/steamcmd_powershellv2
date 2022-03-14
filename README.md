@@ -12,4 +12,6 @@ New-Item -ItemType Directory -Force -Path 'C:\steamcmd'; Invoke-WebRequest -Uri 
 
 Done! 
 
+First of all execute option 1 to install first steamcmd
+
 You can stop script with CTRL+C and execute again with this command: Set-Location 'C:\steamcmd'; .\steamcmd_powershell.ps1
