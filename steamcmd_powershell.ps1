@@ -25,7 +25,8 @@ Write-Host '# steamcmd_powershell v2                                            
 Write-Host '# by xbit                                                                                      #'                         
 Write-Host '# https://github.com/xbit0412                                                                  #'       
 Write-Host '# https://www.xbitnetspace.com                                                                 #'
-Write-Host '# If you find useful this script please donate at: https://www.paypal.com/paypalme/endikapa    #'
+Write-Host '# If you find useful this script please donate at:                                             #'
+Write-Host '# https://www.paypal.com/donate/?hosted_button_id=8DNVY4365H9Y4                                #'
 Write-Host '################################################################################################'
 
 <# Ask user for option value, set the value in variable to use #>
