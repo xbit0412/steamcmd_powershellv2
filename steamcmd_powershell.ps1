@@ -1,6 +1,8 @@
 <# Force the script to be allowed to run as admin group user only for security purposes #>
 #Requires -RunAsAdministrator
 
+
+<#######################################################>
 <# Doing some prerequisites  #>
 <# Create new group for script created users #>
 New-LocalGroup -Name 'script_limited_users'
@@ -11,6 +13,12 @@ secedit /configure /db c:\windows\security\local.sdb /cfg c:\secpol.cfg /areas S
 rm -force c:\secpol.cfg -confirm:$false
 <# Force gpedit update #>
 gpupdate /force
+<# Open RDP firewall port to public#>
+New-NetFirewallRule -DisplayName "allow 3389" -Direction inbound -Profile public -Action allow -LocalPort 3389 -Protocol tcp
+<# Disable all Windows Firewall profiles #>
+Set-NetFirewallProfile -All -Enabled False
+<# Enable Windows Firewall public profile only #>
+Set-NetFirewallProfile -Profile Public -Enabled True
 <#######################################################>
 
 <# Loop to keep script open in Powershell #>
@@ -168,10 +176,6 @@ switch ( $option )
         <# Execution if option 7: Open Windows Firewall port #>
         <# Clean PowerShell #>
         Clear-Host
-        <# Disable all Windows Firewall profiles #>
-        Set-NetFirewallProfile -All -Enabled False
-        <# Enable Windows Firewall public profile only #>
-        Set-NetFirewallProfile -Profile Public -Enabled True
         <# Show user available rules #>
         Write-Host 'Created rules'
         <# Match with variable script created firewall entries #>
@@ -189,10 +193,6 @@ switch ( $option )
         <# Execution if option 8: Delete Windows Firewall port #>
         <# Clean PowerShell #>
         Clear-Host
-        <# Disable all Windows Firewall profiles #>
-        Set-NetFirewallProfile -All -Enabled False
-        <# Enable Windows Firewall public profile only #>
-        Set-NetFirewallProfile -Profile Public -Enabled True
         <# Show user available rules #>
         Write-Host 'Created rules'
         <# Match with variable script created firewall entries #>
