@@ -125,14 +125,17 @@ switch ( $option )
         if ([string]::IsNullOrWhiteSpace($steamcmduserlogin)) {
             $steamcmduserlogin = 'anonymous'
         }
-        <# Create update_server.bat file #>
+        <# Create update_server.bat file and assign owner #>
         New-Item -ItemType File -Path C:\users\$newuser\update_server.bat
+        icacls C:\users\$newuser\update_server.bat /setowner $newuser
         <# Add directory for server install #>
         New-Item -ItemType Directory C:\users\$newuser\$newuser
-        <# Add empty startup script, user must edit this file later to start the game server #>
+        <# Add empty startup script, user must edit this file later to start the game server and set owner #>
         New-Item -ItemType File -Path C:\users\$newuser\$newuser\server_startup.bat
-        <# Add empty steam_appid file #>
+        icacls C:\users\$newuser\$newuser\server_startup.bat /setowner $newuser
+        <# Add empty steam_appid file and set owner #>
         New-Item -ItemType File -Path C:\users\$newuser\$newuser\steam_appid.txt
+        icacls C:\users\$newuser\$newuser\steam_appid.txt /setowner $newuser
         <# Add steam_appid.txt file with server ID insider #>
         $gameid >> C:\users\$newuser\$newuser\steam_appid.txt
         <# Insert script required data to install the game server in specified folder for future manual use case #>
