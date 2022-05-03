@@ -125,25 +125,21 @@ switch ( $option )
         if ([string]::IsNullOrWhiteSpace($steamcmduserlogin)) {
             $steamcmduserlogin = 'anonymous'
         }
-        <# Create update_server.bat file and assign owner #>
-        New-Item -ItemType File -Path C:\users\$newuser\update_server.bat
-        icacls C:\users\$newuser\update_server.bat /setowner $newuser
         <# Add directory for server install #>
         New-Item -ItemType Directory C:\users\$newuser\$newuser
         <# Add empty startup script, user must edit this file later to start the game server and set owner #>
         New-Item -ItemType File -Path C:\users\$newuser\$newuser\server_startup.bat
-        icacls C:\users\$newuser\$newuser\server_startup.bat /setowner $newuser
-        <# Add empty steam_appid file and set owner #>
-        New-Item -ItemType File -Path C:\users\$newuser\$newuser\steam_appid.txt
-        icacls C:\users\$newuser\$newuser\steam_appid.txt /setowner $newuser
-        <# Add steam_appid.txt file with server ID insider #>
-        $gameid >> C:\users\$newuser\$newuser\steam_appid.txt
+        <# Add empty steam_appid file #>
+        <# Add steam_appid.txt file with server ID inside #>
+        Out-File -FilePath C:\users\$newuser\$newuser\steam_appid.txt -InputObject $gameid -Encoding ASCII
         <# Insert script required data to install the game server in specified folder for future manual use case #>
-        "'C:\steamcmd\steamcmd\steamcmd.exe +login $steamcmduserlogin +force_install_dir C:\users\$newuser\$newuser +app_update $gameid +quit'" >> C:\users\$newuser\update_server.bat
+        $updateserver = "C:\steamcmd\steamcmd\steamcmd.exe +login $steamcmduserlogin +force_install_dir C:\users\$newuser\$newuser +app_update $gameid +quit"
+        Out-File -FilePath C:\users\$newuser\$newuser\update_server.bat -InputObject $updateserver -Encoding ASCII
         <# Launch game server install parameters manually for the first time #>
         Start-Process -FilePath "C:\steamcmd\steamcmd\steamcmd.exe" "+force_install_dir C:\users\$newuser\$newuser +login anonymous +app_update $gameid validate +quit"
         <# Wait so user can read info #>
-        Read-Host 'Press enter to continue'
+        Read-Host 'Wait game server download and verification, after press enter to continue'
+        icacls C:\users\$newuser\$newuser /T /setowner $newuser
     }
 
     5 {
